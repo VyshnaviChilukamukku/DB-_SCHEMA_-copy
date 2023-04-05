@@ -4,11 +4,11 @@ Dev/Source DB info is below.
 Description             = PostgreSQL DB
 Driver                  = /usr/pgsql-9.6/lib/psqlodbcw.so
 commlog                 = yes
-Database                = db_pepsico_dev
-Schema               = pepsio_consumptionv2
-Server                  = lnx1316.ch3.dev.i.com
-ServerName              = lnx1316.ch3.dev.i.com
-Username                = pepsio_consumptionv2
+Database                = db_Vysh_dev
+Schema               = git_consumptionv2
+Server                  = lnx2001.ch3.dev.i.com
+ServerName              = lnx2001.ch3.dev.i.com
+Username                = git_consumptionv2
 Password                =
 Port                    = 5432
 ReadOnly                = No
@@ -20,9 +20,8 @@ ConnSettings            =
 
 Production/Target DB info is below.
 Description             = PostgreSQL DB
-Database                = db_pepsico_prod
-Schema               = pepsio_consumptionv2
+Database                = db_Vysh_prod
+Schema               = git_consumptionv2
 Server                  = lnx1304.ch3.prod.i.com
 ServerName              = lnx1304.ch3.prod.i.com
-Username                = pepsio_consumptionv2
-
+Username                = git_consumptionv2
