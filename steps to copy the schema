@@ -1,0 +1,78 @@
+STEP 1:- From lnx2001.ch3.dev.i.com
+pg_dump -d db_Vysh_dev -n git_consumptionv2 -Fp -f /pg_backups/git_consumptionv2.sql
+
+STEP 2:- lnx1304.ch3.prod.i.com
+psql -h localhost -U git_consumptionv2 -d db_Vysh_prod -f /pg_backups/git_consumptionv2.sql
+
+
+drop schema git_consumptionv2 cascade; CREATE SCHEMA git_consumptionv2 AUTHORIZATION postgres;
+grant usage on schema git_consumptionv2 to git_consumptionv2;
+GRANT Connect ON DATABASE db_Vysh_prod TO git_consumptionv2;
+GRANT ALL ON SCHEMA git_consumptionv2 TO git_consumptionv2;
+GRANT ALL ON SCHEMA git_consumptionv2 TO postgres;
+ALTER ROLE git_consumptionv2 SET search_path TO git_consumptionv2;
+alter schema git_consumptionv2 owner to git_consumptionv2; GRANT ALL ON SCHEMA git_consumptionv2 TO nanadmin;
+GRANT ALL ON SCHEMA git_consumptionv2 TO pepsi_model;
+
+
+db_Vysh_prod=# \dn+ git_consumptionv2
+                                             List of schemas
+         Name         |        Owner         |              Access privileges               | Description
+----------------------+----------------------+----------------------------------------------+-------------
+git_consumptionv2 | git_consumptionv2 | git_consumptionv2=UC/git_consumptionv2+|
+                      |                      | nanadmin=UC/git_consumptionv2            +|
+                      |                      | pepsi_model=UC/git_consumptionv2          |
+(1 row)
+
+
+db_Vysh_prod=# \du+ nanadmin
+                  List of roles
+Role name | Attributes | Member of | Description
+-----------+------------+-----------+-------------
+nanadmin  |            | {}        | db_Vysh_prod=# \du+ pepsi_model
+                   List of roles
+  Role name  | Attributes | Member of | Description
+-------------+------------+-----------+-------------
+pepsi_model |            | {}        | db_Vysh_prod=#
+
+
+ 
+db_Vysh_prod=# SELECT pg_size_pretty(sum(pg_relation_size(quote_ident(schemaname) || '.' || quote_ident(tablename)))::bigint) FROM pg_tables
+db_Vysh_prod-# WHERE schemaname = 'git_consumptionv2';
+pg_size_pretty
+----------------
+2855 MB
+(1 row) db_Vysh_prod=#
+
+ 
+SELECT
+                n.nspname as Schema_name
+                ,CASE c.relkind
+                   WHEN 'r' THEN 'table'
+                   WHEN 'v' THEN 'view'
+                   WHEN 'i' THEN 'index'
+                   WHEN 'S' THEN 'sequence'
+                   WHEN 's' THEN 'special'
+                END as object_type
+                ,count(1) as object_count
+FROM pg_catalog.pg_class c
+LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+WHERE c.relkind IN ('r','v','i','S','s')
+and n.nspname='git_consumptionv2'
+GROUP BY  n.nspname,
+                CASE c.relkind
+                   WHEN 'r' THEN 'table'
+                   WHEN 'v' THEN 'view'
+                   WHEN 'i' THEN 'index'
+                   WHEN 'S' THEN 'sequence'
+                   WHEN 's' THEN 'special'
+                END
+ORDER BY n.nspname,
+                CASE c.relkind
+                   WHEN 'r' THEN 'table'
+                   WHEN 'v' THEN 'view'
+                   WHEN 'i' THEN 'index'
+                   WHEN 'S' THEN 'sequence'
+                   WHEN 's' THEN 'special'
+                END;
+
