@@ -1,0 +1,28 @@
+Ref:
+
+Dev/Source DB info is below.
+Description             = PostgreSQL DB
+Driver                  = /usr/pgsql-9.6/lib/psqlodbcw.so
+commlog                 = yes
+Database                = db_pepsico_dev
+Schema               = pepsio_consumptionv2
+Server                  = lnx1316.ch3.dev.i.com
+ServerName              = lnx1316.ch3.dev.i.com
+Username                = pepsio_consumptionv2
+Password                =
+Port                    = 5432
+ReadOnly                = No
+RowVersioning           = No
+ShowSystemTables        = No
+ShowOidColumn           = No
+FakeOidIndex            = No
+ConnSettings            =
+
+Production/Target DB info is below.
+Description             = PostgreSQL DB
+Database                = db_pepsico_prod
+Schema               = pepsio_consumptionv2
+Server                  = lnx1304.ch3.prod.i.com
+ServerName              = lnx1304.ch3.prod.i.com
+Username                = pepsio_consumptionv2
+
